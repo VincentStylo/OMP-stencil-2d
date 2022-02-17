@@ -9,5 +9,5 @@ make-2d: make-2d.o
 stencil-2d: stencil-2d.o
 	$(CC) $(LFLAGS) -o stencil-2d stencil-2d.o
 clean:
-	rm -f *.o core* print-2d make-2d stencil-2d
+	rm -f *.o *.exe core* print-2d make-2d stencil-2d
 
