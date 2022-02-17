@@ -1,0 +1,6 @@
+make-2d.o
+print-2d.exe
+print-2d.o
+stencil-2d.o
+make-2d.exe
+stencil-2d.exe
