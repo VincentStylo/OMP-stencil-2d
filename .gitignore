@@ -4,3 +4,6 @@ print-2d.o
 stencil-2d.o
 make-2d.exe
 stencil-2d.exe
+all.raw
+end.dat
+start.dat

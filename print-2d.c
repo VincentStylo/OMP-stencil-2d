@@ -32,9 +32,9 @@ int main(int argc, char *argv[])
 
 
    //Prints out <input data file> stencil
-   for (size_t i = 0; i < row; i++)
+   for (int i = 0; i < row; i++)
    {
-      for (size_t j = 0; j < column; j++){
+      for (int j = 0; j < column; j++){
          fread(&temp, sizeof(double),1, fp);
          printf("%.2f ", temp);
       }

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     //Creation of Variables
     FILE *fp;
     char rows_A[10], columns_A[10];
-    int rows, columns;
+    int row, column;
 
 
     // Checks to see if arguments are satisfied
@@ -28,25 +28,25 @@ int main(int argc, char *argv[])
     // Takes input <rows> <columns> and converts them from string to int
     strcpy(rows_A, argv[1]);
     strcpy(columns_A, argv[2]);
-    rows = atoi(rows_A);
-    columns = atoi(columns_A);
-    double t = 1;
-    double u = 0;
+    row = atoi(rows_A);
+    column = atoi(columns_A);
+    double one = 1;
+    double zero = 0;
 
 
     // Creates <output file> , and putting a stencil with the dimensions of <rows> <columns>
     fp = fopen(argv[3], "w");
-    fwrite(&rows, 1, sizeof(rows), fp);
-    fwrite(&columns, 1, sizeof(columns), fp);
-    for (size_t i = 0; i < rows; i++)
+    fwrite(&row, 1, sizeof(int), fp);
+    fwrite(&column, 1, sizeof(int), fp);
+    for (int i = 0; i < row; i++)
     {
-        for (size_t j = 0; j < columns; j++)
+        for (int j = 0; j < column; j++)
         {
-            if (j == 0  || j == columns-1)
+            if (j == 0  || j == column-1)
             {
-                fwrite(&t, 1, sizeof(double), fp);
+                fwrite(&one, 1, sizeof(double), fp);
             } else {
-                fwrite(&u, 1, sizeof(double), fp);
+                fwrite(&zero, 1, sizeof(double), fp);
 	    } 
         }
         
