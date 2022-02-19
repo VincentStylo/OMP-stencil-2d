@@ -1,11 +1,8 @@
 /* Code by Jose Martinez Torres
- *
- * This is: stencil-2d-stack
- * Just generates the raw image stack,
- * just like prior assignment
- * 
+ * This is stencil-2d
+ * Outputs to screen the elapsed time in seconds, number-
+ * of iterations, along with row and column 
  */
-
 
 // libraries
 #include <stdio.h>
@@ -13,39 +10,40 @@
 #include <string.h>
 #include <time.h>
 
-
 // defined functions
 double **malloc2D(int jmax, int imax);
 
+// main program
 int main(int argc, char *argv[])
 {
-    // Checks to see if argc matches
-    if (argc != 4)
+    // Checks to see if arguments are satisfied
+    if (argc != 5)
     {
-        printf("usage: ./stencil-2d <num iterations> <input file> <raw stack> \n");
+        printf("usage: ./stencil-2d <num iterations> <input file> <output file> <all-iterations> \n");
         exit(0);
     }
 
-    // TIMER STARTS
-    clock_t begin = clock(); 
     // Variables are created
+    clock_t begin = clock(); 
     FILE *fp;
     int row = 0, column = 0, iteration = 0;
     char iteration_A[10];
     strcpy(iteration_A, argv[1]);
     iteration = atoi(iteration_A);
+
     // Opens <input file>, reads row and column
     fp = fopen(argv[2], "r");
     printf("reading in file: %s \n", argv[2]);
     fread(&row, sizeof(int), 1, fp);
     fread(&column, sizeof(int), 1, fp);
+
     // BRobey memory allocation
     double **x = malloc2D(row, column);
+
     // Loads values from <input file> to x, and closes <input file>
     fread(&x[0][0], row * column, sizeof(double), fp);
     fclose(fp);
-    // Opens <Raw Stack>
-    fp = fopen(argv[3], "w");
+
     // Does Stencil Operation
     for (int i = 0; i < iteration; i++)
     {
@@ -59,10 +57,16 @@ int main(int argc, char *argv[])
                           9.0;
             }
         }
-    // Writes to <Raw Stack> after iteration is completed
-        fwrite(&x[0][0], row * column, sizeof(double), fp);
     }
+
+    // Saves it to <Output File>
+    fp = fopen(argv[3], "w");
+    fwrite(&row, 1, sizeof(int), fp);
+    fwrite(&column, 1, sizeof(int), fp);
+    fwrite(&x[0][0], row * column, sizeof(double), fp);
     fclose(fp);
+
+    // Frees X, stops the timer, and Ends Program
     free(x);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

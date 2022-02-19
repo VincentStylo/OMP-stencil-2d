@@ -3,7 +3,7 @@
  * This is: stencil-2d-stack
  * Just generates the raw image stack,
  * just like prior assignment
- * 
+ * BUT PARALLEL
  */
 
 
@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <omp.h>
 
 
 // defined functions
@@ -25,7 +26,6 @@ int main(int argc, char *argv[])
         printf("usage: ./stencil-2d <num iterations> <input file> <raw stack> \n");
         exit(0);
     }
-
     // TIMER STARTS
     clock_t begin = clock(); 
     // Variables are created
@@ -46,7 +46,9 @@ int main(int argc, char *argv[])
     fclose(fp);
     // Opens <Raw Stack>
     fp = fopen(argv[3], "w");
-    // Does Stencil Operation
+    // Does Stencil Operation but PARALLEL
+
+    {
     for (int i = 0; i < iteration; i++)
     {
         for (int a = 1; a < row - 1; a++)
@@ -59,6 +61,7 @@ int main(int argc, char *argv[])
                           9.0;
             }
         }
+    }
     // Writes to <Raw Stack> after iteration is completed
         fwrite(&x[0][0], row * column, sizeof(double), fp);
     }
