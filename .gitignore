@@ -7,3 +7,6 @@ stencil-2d.exe
 all.raw
 end.dat
 start.dat
+make-2d
+print-2d
+stencil-2d

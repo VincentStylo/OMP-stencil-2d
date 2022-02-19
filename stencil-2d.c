@@ -1,6 +1,8 @@
 /* Code by Jose Martinez Torres
-This is stencil-2d
-*/
+ * This is stencil-2d
+ * Outputs to screen the elapsed time in seconds, number-
+ * of iterations, along with row and column 
+ */
 
 // libraries
 #include <stdio.h>
@@ -22,6 +24,7 @@ int main(int argc, char *argv[])
     }
 
     // Variables are created
+    clock_t begin = clock(); 
     FILE *fp;
     int row = 0, column = 0, iteration = 0;
     char iteration_A[10];
@@ -34,7 +37,7 @@ int main(int argc, char *argv[])
     fread(&row, sizeof(int), 1, fp);
     fread(&column, sizeof(int), 1, fp);
 
-    // BRobey way of memory allocation
+    // BRobey memory allocation
     double **x = malloc2D(row, column);
 
     // Loads values from <input file> to x, and closes <input file>
@@ -56,15 +59,18 @@ int main(int argc, char *argv[])
         }
     }
 
-    // Stores the <num iteration> th and saves it as <Output File>
+    // Saves it to <Output File>
     fp = fopen(argv[3], "w");
     fwrite(&row, 1, sizeof(int), fp);
     fwrite(&column, 1, sizeof(int), fp);
     fwrite(&x[0][0], row * column, sizeof(double), fp);
     fclose(fp);
 
-    // Frees X, and Ends Program
+    // Frees X, stops the timer, and Ends Program
     free(x);
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Elapsed time =  %f \nNumber of iterations = %d \nRows: %d, Columns: %d\n", time_spent, iteration, row, column);
     return 0;
 }
 
