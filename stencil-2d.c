@@ -50,13 +50,15 @@ int main(int argc, char *argv[])
     fread(&x[0][0], row * column, sizeof(double), fp);
     fclose(fp);
 
+    // Copies Values from x and puts them into xnew, ready to double buffer
     for(int i = 0; i < row; i++){
         for (int j = 0; j < column; j++){
             xnew[i][j] = x[i][j];
         }
     }
 
-    // Does Stencil Operation
+    fp = fopen(argv[4], "w");
+    // Does Stencil Operation and stores it in a .raw file!
     for (int i = 0; i < iteration; i++)
     {
         for (int a = 1; a < row - 1; a++)
@@ -66,8 +68,11 @@ int main(int argc, char *argv[])
                 xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) / 9.0;
             }
         }
+        fwrite(&x[0][0], row * column, sizeof(double), fp);
         SWAP_PTR(xnew, x, xtmp);
     }
+    fwrite(&x[0][0], row * column, sizeof(double), fp);
+    fclose(fp);
 
     
     fp = fopen(argv[3], "w");
