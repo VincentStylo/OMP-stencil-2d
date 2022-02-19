@@ -1,7 +1,9 @@
-/* Code by Jose Martinez Torres
+/* 
+ * Code by Jose Martinez Torres
  * This is stencil-2d
  * Outputs to screen the elapsed time in seconds, number-
  * of iterations, along with row and column 
+ * 
  */
 
 // libraries
@@ -51,10 +53,7 @@ int main(int argc, char *argv[])
         {
             for (int b = 1; b < column - 1; b++)
             {
-                x[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] +
-                           x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] +
-                           x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) /
-                          9.0;
+                x[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) / 9.0;
             }
         }
     }
@@ -74,7 +73,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-// malloc2d code by SCROBEY, THIS IS NOT MINE
+// malloc2d code by BROBEY, THIS IS NOT MINE
 double **malloc2D(int jmax, int imax)
 {
     // first allocate a block of memory for the row pointers and the 2D array
