@@ -12,6 +12,9 @@
 #include <string.h>
 #include <time.h>
 
+
+#define SWAP_PTR(xnew,xold,xtmp) (xtmp=xnew, xnew=xold, xold=xtmp)
+
 // defined functions
 double **malloc2D(int jmax, int imax);
 
@@ -38,13 +41,20 @@ int main(int argc, char *argv[])
     printf("reading in file: %s \n", argv[2]);
     fread(&row, sizeof(int), 1, fp);
     fread(&column, sizeof(int), 1, fp);
-
     // BRobey memory allocation
+    double **xtmp;
     double **x = malloc2D(row, column);
+    double **xnew = malloc2D(row, column);
 
     // Loads values from <input file> to x, and closes <input file>
     fread(&x[0][0], row * column, sizeof(double), fp);
     fclose(fp);
+
+    for(int i = 0; i < row; i++){
+        for (int j = 0; j < column; j++){
+            xnew[i][j] = x[i][j];
+        }
+    }
 
     // Does Stencil Operation
     for (int i = 0; i < iteration; i++)
@@ -53,12 +63,13 @@ int main(int argc, char *argv[])
         {
             for (int b = 1; b < column - 1; b++)
             {
-                x[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) / 9.0;
+                xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) / 9.0;
             }
         }
+        SWAP_PTR(xnew, x, xtmp);
     }
 
-    // Saves it to <Output File>
+    
     fp = fopen(argv[3], "w");
     fwrite(&row, 1, sizeof(int), fp);
     fwrite(&column, 1, sizeof(int), fp);
@@ -67,6 +78,7 @@ int main(int argc, char *argv[])
 
     // Frees X, stops the timer, and Ends Program
     free(x);
+    free(xnew);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("Elapsed time =  %f \nNumber of iterations = %d \nRows: %d, Columns: %d\n", time_spent, iteration, row, column);
