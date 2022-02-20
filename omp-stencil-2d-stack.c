@@ -6,7 +6,6 @@
  * BUT PARALLEL
  */
 
-
 // libraries
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +15,7 @@
 
 #include "utilities.h"
 
-#define SWAP_PTR(xnew,xold,xtmp) (xtmp=xnew, xnew=xold, xold=xtmp)
+#define SWAP_PTR(xnew, xold, xtmp) (xtmp = xnew, xnew = xold, xold = xtmp)
 
 int main(int argc, char *argv[])
 {
@@ -32,11 +31,14 @@ int main(int argc, char *argv[])
 
     // Variables are created
     FILE *fp;
-    double thread_count = 0;
-    int row = 0, column = 0, iteration = 0;
+    int row = 0, column = 0, iteration = 0,  thread_count = 0;
     char iteration_A[10];
     strcpy(iteration_A, argv[1]);
     iteration = atoi(iteration_A);
+    thread_count = atoi(argv[4]);
+
+    // Sets the threadcount
+    omp_set_num_threads(thread_count);
 
     // Opens <input file>, reads row and column
     fp = fopen(argv[2], "r");
@@ -44,7 +46,7 @@ int main(int argc, char *argv[])
     fread(&row, sizeof(int), 1, fp);
     fread(&column, sizeof(int), 1, fp);
 
-   // BRobey memory allocation
+    // BRobey memory allocation
     double **xtmp;
     double **x = malloc2D(row, column);
     double **xnew = malloc2D(row, column);
@@ -54,46 +56,42 @@ int main(int argc, char *argv[])
     fclose(fp);
 
     // Copies Values from x and puts them into xnew, ready to double buffer
-    for(int i = 0; i < row; i++){
-        for (int j = 0; j < column; j++){
+    #pragma omp parallel for
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < column; j++)
+        {
             xnew[i][j] = x[i][j];
         }
     }
 
-    //Opens the file that's going to be written to
+    // Opens the file that's going to be written to
     fp = fopen(argv[3], "w");
-
-    // sets the threadcount
-	omp_set_num_threads(thread_count);
-
     // Does Stencil Operation and stores it in a .raw file!
-#pragma omp parallel
-{
-    for (int i = 0; i < iteration; i++)
+    for (int i = 0; i < iteration; i++) 
     {
+        #pragma omp parallel for
         for (int a = 1; a < row - 1; a++)
         {
             for (int b = 1; b < column - 1; b++)
             {
-                xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] +  
-                x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + 
-                x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) 
-                / 9.0;
+                xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] +
+                              x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] +
+                              x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) /
+                             9.0;
             }
         }
         fwrite(&x[0][0], row * column, sizeof(double), fp);
         SWAP_PTR(xnew, x, xtmp);
     }
-}
     fwrite(&x[0][0], row * column, sizeof(double), fp);
     fclose(fp);
-
 
     // Frees X, stops the timer, and Ends Program
     free(x);
     free(xnew);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Elapsed time =  %f \nNumber of iterations = %d \nRows: %d, Columns: %d\n", time_spent, iteration, row, column);
+    printf("Elapsed time =  %f Number of iterations = %d Rows: %d, Columns: %d\n", time_spent, iteration, row, column);
     return 0;
 }
