@@ -23,7 +23,7 @@
 int main(int argc, char *argv[])
 {
     // Checks to see if arguments are satisfied
-    if (argc != 3)
+    if (argc != 4)
     {
         printf("usage: ./stencil-2d <num iterations> <input file> <raw stack> \n");
         exit(0);
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    fp = fopen(argv[4], "w");
+    fp = fopen(argv[3], "w");
     // Does Stencil Operation and stores it in a .raw file!
     for (int i = 0; i < iteration; i++)
     {
