@@ -26,9 +26,6 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    // TIMER STARTS
-    clock_t begin = clock();
-
     // Variables are created
     FILE *fp;
     int row = 0, column = 0, iteration = 0,  thread_count = 0;
@@ -51,12 +48,13 @@ int main(int argc, char *argv[])
     double **x = malloc2D(row, column);
     double **xnew = malloc2D(row, column);
 
+    // TIMER STARTS
+    clock_t begin = clock();
     // Loads values from <input file> to x, and closes <input file>
     fread(&x[0][0], row * column, sizeof(double), fp);
     fclose(fp);
 
     // Copies Values from x and puts them into xnew, ready to double buffer
-    #pragma omp parallel for
     for (int i = 0; i < row; i++)
     {
         for (int j = 0; j < column; j++)
@@ -71,10 +69,8 @@ int main(int argc, char *argv[])
     for (int i = 0; i < iteration; i++) 
     {
         #pragma omp parallel for
-        for (int a = 1; a < row - 1; a++)
-        {
-            for (int b = 1; b < column - 1; b++)
-            {
+        for (int a = 1; a < row - 1; a++){
+            for (int b = 1; b < column - 1; b++){
                 xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] +
                               x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] +
                               x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) /
