@@ -24,3 +24,6 @@ utilities.o
 omp.start.dat
 omp-all.raw
 omp.end.dat
+omp-start.dat
+omp-end.dat
+

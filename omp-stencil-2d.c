@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
         }
     }
 
-//#pragma omp parallel
+#pragma omp parallel
     fp = fopen(argv[4], "w");
     // Does Stencil Operation and stores it in a .raw file!
     for (int i = 0; i < iteration; i++)
