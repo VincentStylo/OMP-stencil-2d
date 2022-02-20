@@ -14,22 +14,19 @@
 #include <time.h>
 #include <omp.h>
 
-
-// defined functions
-double **malloc2D(int jmax, int imax);
-
 int main(int argc, char *argv[])
 {
     // Checks to see if argc matches
-    if (argc != 4)
+    if (argc != 5)
     {
-        printf("usage: ./stencil-2d <num iterations> <input file> <raw stack> \n");
+        printf("usage: ./stencil-2d <num iterations> <input file> <raw stack> <num threads> \n");
         exit(0);
     }
     // TIMER STARTS
     clock_t begin = clock(); 
     // Variables are created
     FILE *fp;
+    double thread_count = 0;
     int row = 0, column = 0, iteration = 0;
     char iteration_A[10];
     strcpy(iteration_A, argv[1]);
@@ -71,22 +68,4 @@ int main(int argc, char *argv[])
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("Elapsed time =  %f \nNumber of iterations = %d \nRows: %d, Columns: %d\n", time_spent, iteration, row, column);
     return 0;
-}
-
-// malloc2d code by SCROBEY, THIS IS NOT MINE
-double **malloc2D(int jmax, int imax)
-{
-    // first allocate a block of memory for the row pointers and the 2D array
-    double **x = (double **)malloc(jmax * sizeof(double *) + jmax * imax * sizeof(double));
-
-    // Now assign the start of the block of memory for the 2D array after the row pointers
-    x[0] = (double *)(x + jmax);
-
-    // Last, assign the memory location to point to for each row pointer
-    for (int j = 1; j < jmax; j++)
-    {
-        x[j] = x[j - 1] + imax;
-    }
-
-    return (x);
 }

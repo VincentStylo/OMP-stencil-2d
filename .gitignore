@@ -20,3 +20,4 @@ omp-stencil-2d.exe
 omp-stencil-2d-stack.o
 all.raw
 final.dat
+utilities.o
