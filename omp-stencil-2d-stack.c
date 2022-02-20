@@ -14,6 +14,10 @@
 #include <time.h>
 #include <omp.h>
 
+#include "utilities.h"
+
+#define SWAP_PTR(xnew,xold,xtmp) (xtmp=xnew, xnew=xold, xold=xtmp)
+
 int main(int argc, char *argv[])
 {
     // Checks to see if argc matches
