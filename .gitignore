@@ -33,3 +33,8 @@ all.20.20.20.raw
 end.20.20.20.dat
 omp.start.20.20.20.dat
 .gitignore
+omp-stencil-2d
+omp-stencil-2d-stack
+omp.all.20.20.20.raw
+serial.all.20.20.20.raw
+stencil-2d-stack
