@@ -27,3 +27,6 @@ omp.end.dat
 omp-start.dat
 omp-end.dat
 
+start.20.20.20.dat
+~$omp-serial-stencil-2d.xlsx
+omp-serial-stencil-2d.xlsx
