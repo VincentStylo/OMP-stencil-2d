@@ -32,3 +32,5 @@ start.20.20.20.dat
 omp-serial-stencil-2d.xlsx
 all.20.20.20.raw
 end.20.20.20.dat
+omp.start.20.20.20.dat
+.gitignore

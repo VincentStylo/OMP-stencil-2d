@@ -56,8 +56,15 @@ int main(int argc, char *argv[])
         }
     }
 
+    //Opens the file that's going to be written to
     fp = fopen(argv[3], "w");
+
+    // sets the threadcount
+	omp_set_num_threads(thread_count);
+
     // Does Stencil Operation and stores it in a .raw file!
+#pragma omp parallel
+{
     for (int i = 0; i < iteration; i++)
     {
         for (int a = 1; a < row - 1; a++)
@@ -70,6 +77,7 @@ int main(int argc, char *argv[])
         fwrite(&x[0][0], row * column, sizeof(double), fp);
         SWAP_PTR(xnew, x, xtmp);
     }
+}
     fwrite(&x[0][0], row * column, sizeof(double), fp);
     fclose(fp);
 

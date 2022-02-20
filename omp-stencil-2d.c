@@ -49,6 +49,8 @@ int main(int argc, char *argv[])
     double **x = malloc2D(row, column);
     double **xnew = malloc2D(row, column);
 
+    // Sets the threadcount
+    omp_set_num_threads(thread_count);
     // Loads values from <input file> to x, and closes <input file>
     fread(&x[0][0], row * column, sizeof(double), fp);
     fclose(fp);
@@ -59,17 +61,19 @@ int main(int argc, char *argv[])
             xnew[i][j] = x[i][j];
         }
     }
-
-#pragma omp parallel
     fp = fopen(argv[4], "w");
-    // Does Stencil Operation and stores it in a .raw file!
+
+    // Does Stencil Operation and stores it in a .raw file
+
     for (int i = 0; i < iteration; i++)
     {
         for (int a = 1; a < row - 1; a++)
         {
+            {
             for (int b = 1; b < column - 1; b++)
             {
                 xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) / 9.0;
+            }
             }
         }
         fwrite(&x[0][0], row * column, sizeof(double), fp);
