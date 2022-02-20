@@ -21,3 +21,6 @@ omp-stencil-2d-stack.o
 all.raw
 final.dat
 utilities.o
+omp.start.dat
+omp-all.raw
+omp.end.dat
