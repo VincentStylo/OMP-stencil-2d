@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     // Does Stencil Operation and stores it in a .raw file
     for (int i = 0; i < iteration; i++)
     {   
-        #pragma omp parallel for reduction(+:x, xnew)
+        #pragma omp parallel for
         for (int a = 1; a < row - 1; a++)
         {
             for (int b = 1; b < column - 1; b++)
