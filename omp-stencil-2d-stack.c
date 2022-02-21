@@ -78,13 +78,14 @@ int main(int argc, char *argv[])
     // Does Stencil Operation and stores it in a .raw file!
     for (int i = 0; i < iteration; i++) {
 
-        #pragma omp parallel for
+        #pragma parallel 
+        {
         for (int a = 1; a < row - 1; a++){
             for (int b = 1; b < column - 1; b++){
                 xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) / 9.0;
             }
+         }
         }
-
         SWAP_PTR(xnew, x, xtmp);
         fwrite(&x[0][0], row * column, sizeof(double), fp);
 
