@@ -12,6 +12,7 @@
 #include <string.h>
 #include <time.h>
 #include <omp.h>
+
 #include "utilities.h"
 
 #define SWAP_PTR(xnew, xold, xtmp) (xtmp = xnew, xnew = xold, xold = xtmp)
@@ -58,11 +59,10 @@ int main(int argc, char *argv[])
     // Sets the threadcount
     omp_set_num_threads(thread_count);
 
-    /*
     #pragma omp parallel
     #pragma omp master
       printf("Running with %d thread(s)\n",omp_get_num_threads());
-    */
+
 
     // Copies Values from x and puts them into xnew, ready to double buffer
     for (int i = 0; i < row; i++){
@@ -77,14 +77,15 @@ int main(int argc, char *argv[])
 
     // Does Stencil Operation and stores it in a .raw file!
     for (int i = 0; i < iteration; i++) {
+
         #pragma omp parallel for
         for (int a = 1; a < row - 1; a++){
             for (int b = 1; b < column - 1; b++){
                 xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) / 9.0;
             }
         }
-        SWAP_PTR(xnew, x, xtmp);
 
+        SWAP_PTR(xnew, x, xtmp);
         fwrite(&x[0][0], row * column, sizeof(double), fp);
 
     }
