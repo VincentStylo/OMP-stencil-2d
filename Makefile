@@ -34,4 +34,6 @@ omp-stencil-2d-stack.o: omp-stencil-2d-stack.c utilities.h
 	$(CC) $(LFLAGS) -c omp-stencil-2d-stack.c
 clean:
 	rm -f *.o *.exe core* print-2d make-2d stencil-2d stencil-2d-stack omp-stencil-2d-stack omp-stencil-2d
+clean-windows:
+	del -f *.o *.exe core* print-2d make-2d stencil-2d stencil-2d-stack omp-stencil-2d-stack omp-stencil-2d
 
