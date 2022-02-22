@@ -20,9 +20,9 @@
 int main(int argc, char *argv[])
 {
     // Checks to see if arguments are satisfied
-    if (argc != 5)
+    if (argc != 4)
     {
-        printf("usage: ./stencil-2d <num iterations> <input file> <output file> <all-iterations> \n");
+        printf("usage: ./stencil-2d <num iterations> <input file> <output file> \n");
         exit(0);
     }
 
@@ -55,24 +55,13 @@ int main(int argc, char *argv[])
             xnew[i][j] = x[i][j];
         }
     }
-
-    fp = fopen(argv[4], "w");
+    
     // Does Stencil Operation and stores it in a .raw file!
     for (int i = 0; i < iteration; i++)
     {
-        for (int a = 1; a < row - 1; a++)
-        {
-            for (int b = 1; b < column - 1; b++)
-            {
-                xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) / 9.0;
-            }
-        }
-        fwrite(&x[0][0], row * column, sizeof(double), fp);
+        calc2D_Serial(x, xnew, row, column);
         SWAP_PTR(xnew, x, xtmp);
     }
-    fwrite(&x[0][0], row * column, sizeof(double), fp);
-    fclose(fp);
-
     
     fp = fopen(argv[3], "w");
     fwrite(&row, 1, sizeof(int), fp);

@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
   // Does Stencil Operation
   for (int i = 0; i < iteration; i++)
   {
-    calc2D(x, xnew, row, column);
+    calc2D_Parallel(x, xnew, row, column);
     SWAP_PTR(xnew, x, xtmp);
   }
 
