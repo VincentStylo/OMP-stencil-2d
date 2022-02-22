@@ -39,3 +39,7 @@ omp.all.20.20.20.raw
 serial.all.20.20.20.raw
 stencil-2d-stack
 omp-serial-stencil-2d.pptx
+4000.end.dat
+.gitignore
+omp-4000.end.dat
+4000.start.dat
