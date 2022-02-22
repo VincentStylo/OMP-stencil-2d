@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     // Checks to see if argc matches
     if (argc != 5)
     {
-        printf("usage: ./stencil-2d <num iterations> <input file> <raw stack> <num threads> \n");
+        printf("usage: ./omp-stencil-2d-stack <num iterations> <input file> <raw stack> <num threads> \n");
         exit(0);
     }
 

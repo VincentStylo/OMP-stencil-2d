@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
   // Checks to see if arguments are satisfied
   if (argc != 5)
   {
-    printf("usage: ./stencil-2d <num iterations> <input file> <output file> <thread_count> \n");
+    printf("usage: ./omp-stencil-2d <num iterations> <input file> <output file> <thread_count> \n");
     exit(0);
   }
 
