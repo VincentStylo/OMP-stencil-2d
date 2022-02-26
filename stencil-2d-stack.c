@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     for (int i = 0; i < iteration; i++)
     {
         calc2D_Serial(x, xnew, row, column);
-        fwrite(&x[0][0], row * column, sizeof(double), fp);
+        fwrite(&xnew[0][0], row * column, sizeof(double), fp);
         SWAP_PTR(xnew, x, xtmp);
     }
     fwrite(&x[0][0], row * column, sizeof(double), fp);
