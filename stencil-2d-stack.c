@@ -12,9 +12,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <sys/time.h>
 
 //Included Programs
 #include "utilities.h"
+#include "timer.h"
 
 
 #define SWAP_PTR(xnew,xold,xtmp) (xtmp=xnew, xnew=xold, xold=xtmp)
