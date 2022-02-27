@@ -15,6 +15,7 @@
 
 // Inlucded Programs
 #include "utilities.h"
+#include "timer.h"
 
 #define SWAP_PTR(xnew, xold, xtmp) (xtmp = xnew, xnew = xold, xold = xtmp)
 
@@ -45,6 +46,7 @@ int main(int argc, char *argv[])
     char iteration_A[10];
     strcpy(iteration_A, argv[1]);
     iteration = atoi(iteration_A);
+    double Start, End, Elapsed;
 
     // Opens <input file>, reads row and column
     fp = fopen(argv[2], "r");
@@ -70,7 +72,8 @@ int main(int argc, char *argv[])
 
     // Opens the file that's going to be written to
     fp = fopen(argv[3], "w");
-    clock_t begin = clock();
+    GET_TIME(Start);
+
     // Does Stencil Operation and stores it in a .raw file!
     for (int i = 0; i < iteration; i++)
     {
@@ -84,8 +87,8 @@ int main(int argc, char *argv[])
     // Frees X, stops the timer, and Ends Program
     free(x);
     free(xnew);
-    clock_t end = clock();
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Elapsed time =  %f Number of iterations = %d Rows: %d, Columns: %d\n", time_spent, iteration, row, column);
+    GET_TIME(End);
+    Elapsed = End - Start;
+    printf("Elapsed time =  %f Number of iterations = %d Rows: %d, Columns: %d\n", Elapsed, iteration, row, column);
     return 0;
 }
