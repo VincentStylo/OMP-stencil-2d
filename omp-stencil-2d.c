@@ -12,6 +12,8 @@
 #include <omp.h>
 
 #include "utilities.h"
+#include "timer.h"
+
 
 #define SWAP_PTR(xnew, xold, xtmp) (xtmp = xnew, xnew = xold, xold = xtmp)
 
@@ -43,6 +45,7 @@ int main(int argc, char *argv[])
   char iteration_A[10];
   strcpy(iteration_A, argv[1]);
   iteration = atoi(iteration_A);
+  double Start, End, Elapsed;
 
   // Opens <input file>, reads row and column from <Input File>
   fp = fopen(argv[2], "r");
@@ -68,7 +71,7 @@ int main(int argc, char *argv[])
     }
   }
 
-  clock_t begin = clock();
+  GET_TIME(Start);
 
   // Sets the threadcount
   omp_set_num_threads(thread_count);
@@ -90,8 +93,8 @@ int main(int argc, char *argv[])
   // Frees x and xnew, stops the timer, and Ends Program
   free(x);
   free(xnew);
-  clock_t end = clock();
-  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  printf("Elapsed time =  %f \nNumber of iterations = %d \nRows: %d, Columns: %d\n", time_spent, iteration, row, column);
+  GET_TIME(End);
+  Elapsed = End - Start;
+  printf("Elapsed time =  %f \nNumber of iterations = %d \nRows: %d, Columns: %d\n", Elapsed, iteration, row, column);
   return 0;
 }
