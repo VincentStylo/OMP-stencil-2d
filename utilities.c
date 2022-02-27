@@ -20,7 +20,7 @@ double **malloc2D(int jmax, int imax)
 
 double **calc2D_Parallel(double **x, double **xnew, int row, int column)
 {
-   #pragma omp parallel for collapse(2)
+   #pragma omp parallel for 
    for (int a = 1; a < row - 1; a++){
       for (int b = 1; b < column -1; b++){
          xnew[a][b] = (x[a - 1][b - 1] + x[a - 1][b] + x[a - 1][b + 1] + x[a][b + 1] + x[a + 1][b + 1] + x[a + 1][b] + x[a + 1][b - 1] + x[a][b - 1] + x[a][b]) / 9.0;
